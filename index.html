@@ -3,19 +3,64 @@
 <head>
     <meta charset="utf-8">
     <title>Faces from Places</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
-    <img src="./Faces from Places.png" style="display: block; margin: auto;" />
-    <br>
-    <br>
-    <section style="display: block; margin: auto; max-width: 400px;">
-        <h1>We abide by <a href="https://en.wikipedia.org/wiki/The_Four_Agreements">The Four Agreements</a></h1>
-        <ol>
-            <li>Be Impeccable With Your Word</li>
-            <li>Don't Take Anything Personally</li>
-            <li>Don't Make Assumptions</li>
-            <li>Always Do Your Best</li>
-        </ol>
+    <section class="body-font">
+        <div class="container mx-auto flex px-5 py-24 items-center justify-center flex-col">
+            <img class="lg:w-2/6 md:w-3/6 w-5/6 mb-10 object-cover object-center rounded" alt="rainbow paint on canvas" src="./Faces from Places.png">
+            <div class="text-center lg:w-2/3 w-full">
+                <h1 class="title-font sm:text-4xl text-3xl mb-4 font-bold">Faces From Places</h1>
+                <h2 class="text-xl my-4 font-bold">We abide by <a href="https://en.wikipedia.org/wiki/The_Four_Agreements">The Four Agreements</a></h2>
+                <ol>
+                    <li>Be Impeccable With Your Word</li>
+                    <li>Don't Take Anything Personally</li>
+                    <li>Don't Make Assumptions</li>
+                    <li>Always Do Your Best</li>
+                </ol>
+
+                <h2 class="text-xl my-4 font-bold">Tools</h2>
+
+                <h3>Icebreaker generator</h3>
+                <div class="flex justify-center mt-4">
+                    <button class="inline-flex text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg" id="icebreaker-button">Generate</button>
+                </div>
+                <textarea id="icebreaker-result" class="mt-4 w-1/2 bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+                <div class="flex justify-center mt-4">
+                    <button class="inline-flex text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg hidden" id="icebreaker-copy">Copy to clipboard</button>
+                </div>
+            </div>
+        </div>
     </section>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * max);
+        }
+
+        function copyToClipboard(value) {
+          navigator.clipboard.writeText(value);
+          alert("Copied to clipboard!");
+        }
+
+        $(function() {
+            var icebreakers = [
+                "Do you fold your pizza?",
+                "What fictional family would you most like to join?",
+                "Would you rather be reincarnated as a cat or a dog?",
+                "Pull out your phone; what is your most used emoji?"
+            ];
+            $("#icebreaker-button").click(function() {
+                var icebreaker = icebreakers[getRandomInt(icebreakers.length)];
+                $("#icebreaker-result").text(icebreaker);
+                $("#icebreaker-copy").show();
+            });
+
+            $("#icebreaker-copy").click(function() {
+                copyToClipboard($("#icebreaker-result").text());
+            })
+        });
+    </script>
 </body>
 </html>
