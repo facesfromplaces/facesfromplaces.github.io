@@ -62,9 +62,14 @@
                     if (category.trim().length > 0 && !categories.includes(category)) {
                         categories.push(category);
                     }
+                    // TODO:
+                    // - if categories.length > 1, then show a dropdown for categories
                 }
 
                 $("#icebreaker-button").click(function() {
+                    // TODO: check the value of the currently selected dropdown option,
+                    // - if it’s anything other than "all", use it to filter the possible questions
+
                     var question = questions[getRandomInt(questions.length)];
                     $("#icebreaker-result").text(question);
                     $("#icebreaker-copy").show();
