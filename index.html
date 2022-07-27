@@ -33,7 +33,8 @@
         </div>
     </section>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://unpkg.com/jquery-csv@1.0.21/src/jquery.csv.js"></script>
     <script type="text/javascript">
         function getRandomInt(max) {
             return Math.floor(Math.random() * max);
@@ -45,158 +46,34 @@
         }
 
         $(function() {
-            var icebreakers = [
-                "Do you fold your pizza?",
-                "What fictional family would you most like to join?",
-                "Would you rather be reincarnated as a cat or a dog?",
-                "Pull out your phone; what is your most used emoji?",
-                "What’s your favorite thing about the place where you live?",
-                "What is something you are great at cooking?",
-                "What was one new experience you tried that was completely unknown or uncomfortable to you at the time you tried it?",
-                "What technology innovation made the most impact on your life?",
-                "What movie can you rewatch over and over again?",
-                "Where would you time-travel, if it were possible?",
-                "How would you change your life today if the average life expectancy was 400 years?",
-                "If you had to change your name, what would your new name be, and why would you choose that name?",
-                "What are the best purchase you’ve ever made?",
-                "What characteristic do you value the most in your coworkers?",
-                "What are your favorite songs from your teenage years that you still rock out to when nobody else is listening?",
-                "What if you woke up as your favorite celebrity?",
-                "What separates man from beast?",
-                "What's been your most embarrassing moment?",
-                "Where would you MOST love to visit next if you had the chance?",
-                "What’s the best way to experience a new culture for you?",
-                "What's something you’ve always wanted to do but haven’t got around to doing?",
-                "Is shutting down your brain by watching TV or doing something “not productive” that reduces your stress – negative or positive?",
-                "What are you looking for?",
-                "What’s your most embarrassingly favorite song?",
-                "What does it mean to “be yourself”? Do you think you are these days? How can you be more yourself?",
-                "What are we doing here?",
-                "Is there such thing as work nirvana?",
-                "Where does music come from?",
-                "What is the be live performance you've ever witnessed (music, play, dance, etc.)?",
-                "Tell us about a big win you've had recently.",
-                "Share one piece of advice that changed you.",
-                "What is the worst purchase you've ever made?",
-                "Who was your favorite teacher and why?",
-                "Who is one person you've never met that changed your life?",
-                "Who is one person you personally know that changed your life?",
-                "If you could change your career and had no limitations, what would you choose to do?",
-                "What is a habit you wish you could maintain regularly?",
-                "What is your favorite fiction book?",
-                "Who is your favorite author?",
-                "Who is your favorite visual artist?",
-                "What is your favorite art piece ever?",
-                "What is one fact most people don't know about you?",
-                "Share one item in your house you couldn't live without.",
-                "What is one question you would ask if you were going to outer space?",
-                "What is one question you ask when choosing a new pet?",
-                "If you could ask Oprah one question, what would it be?",
-                "If you could hang out with someone who is passed, who would it be and why?",
-                "How do you stay inspired as a leader?",
-                "Where do your greatest ideas come from?",
-                "How do you make tough decisions?",
-                "What is an ethical challenge you've faced and how did you handle it?",
-                "How do you remind yourself of your goals?",
-                "What do you like to ask other leaders when you get the chance?",
-                "What core value is the most important to you?",
-                "How do you encourage and inspire others?",
-                "What do you do better than anyone else?",
-                "How can a leader avoid being corrupted by power?",
-                "How do you prefer to be recognized?",
-                "Do leaders need power?",
-                "What is the greatest lesson you've learned from a leader and how did you learn it?",
-                "Who do you want to be and what are you doing NOW to get there?",
-                "What is the most important characteristic of a strong leader?",
-                "What is one undesirable trait you've found in a client?",
-                "What is the biggest challenge you're facing today?",
-                "What is your  favorite resource in your field of work?",
-                "What motivates you?",
-                "What leadership skill do you want to develop further?",
-                "Do you view yourself as a leader? Why or why not?",
-                "What is one thing you would change about your community?",
-                "What is one misconception people have about your state or country?",
-                "What does freedom mean to you?",
-                "What is your favorite pastry?",
-                "What is your favorite quote?",
-                "Do you prefer a pen or pencil and why?",
-                "Do you choose an aisle, middle or window seat when you fly on a plane?",
-                "Name 2 things you think will become obsolete in 10 years.",
-                "What is on the background of your computer screen?",
-                "What is on the background of your cell phone?",
-                "Where would you like to retire if money were not a problem?",
-                "What was your favorite childhood TV show?",
-                "What household chore is your favorite to complete?",
-                "If you could hear what ONE person was thinking for the day, who would you listen to?",
-                "If you won a million dollars and had to give it to charity, which charity would you pick?",
-                "If a movie was being made about you, what actor would play you?",
-                "If you could meet anyone from history, who would it be and why?",
-                "Complete this statement: There is never a bad time for...",
-                "If you were a professional wrestler (ex. WWE, AEW), what would your ring name be and why?",
-                "If you were in a roller derby, what would be your name and why?",
-                "If you could have only one food for the rest of your life - and it wouldn't impact your health - what would you pick?",
-                "What is the best dessert you've ever had?",
-                "If you could be invisible for a day, what would you do?",
-                "Would you rather be 20% smarter or 20% better looking than the average population?",
-                "What's your favorite line from any movie?",
-                "If your life was a movie, what would the title be?",
-                "If you had a band, what would you name it?",
-                "Would you rather be rich or famous? Why?",
-                "If you were a piece of furniture, what would you be and why?",
-                "If you could only eat at one restaurant the rest of your life, which place would you pick?",
-                "What's your biggest pet peeve and why?",
-                "If you were a shoe, what kind would you be and why?",
-                "Are you a planner, procrastinator or a combination of both? Why?",
-                "If you could commit any crime and get away with it - what would you do?",
-                "What is something you do well?",
-                "Tell us something you miss from your childhood.",
-                "What was your favorite part about yesterday?",
-                "Pick the one you relate to the most: Computer or Television",
-                "Pick the one you relate to the most: Werewolves or Vampires",
-                "Pick the one you relate to the most: Flip flops or Tennis shoes",
-                "Pick the one you relate to the most: Sunrise or Sunset",
-                "Pick the one you relate to the most: N'SYNC or Backstreet Boys",
-                "Pick the one you relate to the most: Call or Text",
-                "Pick the one you relate to the most: Coffee or Tea",
-                "Pick the one you relate to the most: Coca Cola or Pepsi",
-                "What is your favorite holiday?",
-                "Are you an early bird or a night owl?",
-                "Would you rather walk 100 miles or run 50?",
-                "Are you a cat, dog, bird or fish person?",
-                "Do you prefer watching a TV series or movies?",
-                "Is it GIF or JIF?",
-                "What is the proper way to display toilet paper?",
-                "Would you rather lose sight or hearing?",
-                "Do you like fruit or vegetables more?",
-                "Do you prefer salty or sweet?",
-                "Do you prefer to sing in the car or the shower?",
-                "Do you describe yourself as optimistic or pessimistic?",
-                "Do you prefer to give gifts or receive gifts?",
-                "Pick your preference: Memes or GIFs?",
-                "Pick your preference: iPhone or Android?",
-                "Pick your preference: Escalator or elevator?",
-                "Pick your preference: Do you prefer living in the city or the countryside?",
-                "Pick your preference: Chocolate or vanilla?",
-                "What is one word you can never spell correctly?",
-                "What is your favorite season of the year?",
-                "What's your favorite cruciferous vegetable?",
-                "Would you rather have chainsaw hands or flame throwing feet?",
-                "Would you rather have your hair permanently on fire (of which you are immune to) or would you rather not feel anything you touch?",
-                "Would you rather spend 10 minutes of high intensity training with The Rock or a 60 minute conversation with Anderson Cooper?",
-                "What reality show would you want to be a part of?",
-                "Tell us what you do - but wrong answers only.",
-                "What do you think is the greatest musical artist of all time?",
-                "Would you rather listen to Michael Jackson's catalog of music every minute of the rest of your life (and all you could listen to) OR never listen to any music again?"
-            ];
-            $("#icebreaker-button").click(function() {
-                var icebreaker = icebreakers[getRandomInt(icebreakers.length)];
-                $("#icebreaker-result").text(icebreaker);
-                $("#icebreaker-copy").show();
-            });
+            $.get('data.csv', function(data) {
+                const entries = $.csv.toObjects(data);
 
-            $("#icebreaker-copy").click(function() {
-                copyToClipboard($("#icebreaker-result").text());
-            })
+                const questionKey = "Question";
+                const categoryKey = "Categories (yes/no, casual, deep)";
+
+                const questions = [];
+                const categories = ["all"];
+                for (let entry of entries) {
+                    questions.push(entry[questionKey]);
+
+
+                    const category = entry[categoryKey];
+                    if (category.trim().length > 0 && !categories.includes(category)) {
+                        categories.push(category);
+                    }
+                }
+
+                $("#icebreaker-button").click(function() {
+                    var question = questions[getRandomInt(questions.length)];
+                    $("#icebreaker-result").text(question);
+                    $("#icebreaker-copy").show();
+                });
+
+                $("#icebreaker-copy").click(function() {
+                    copyToClipboard($("#icebreaker-result").text());
+                })
+            }, 'text');
         });
     </script>
 </body>
