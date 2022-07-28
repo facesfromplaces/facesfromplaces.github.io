@@ -23,11 +23,18 @@
 
                 <h3>Icebreaker generator</h3>
                 <div class="flex justify-center mt-4">
-                    <button class="inline-flex text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg" id="icebreaker-button">Generate</button>
+                    <div id="category-dropdown-container" class="hidden">
+                        <label>Question Category
+                            <select class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10" id="category-dropdown">
+                            </select>
+                        </label>
+                    </div>
+                    <span class="mx-2">
+                    <button class="inline-flex text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg" id="generate-button">Generate</button>
                 </div>
-                <textarea id="icebreaker-result" class="mt-4 w-1/2 bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+                <textarea id="question-result" class="mt-4 w-1/2 bg-white rounded border border-gray-300 focus:border-green-500 focus:ring-2 focus:ring-green-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
                 <div class="flex justify-center mt-4">
-                    <button class="inline-flex text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg hidden" id="icebreaker-copy">Copy to clipboard</button>
+                    <button class="inline-flex text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg hidden" id="copy-button">Copy to clipboard</button>
                 </div>
             </div>
         </div>
@@ -49,34 +56,56 @@
             $.get('data.csv', function(data) {
                 const entries = $.csv.toObjects(data);
 
+                // If these values change, update README.md to match
                 const questionKey = "Question";
                 const categoryKey = "Categories (yes/no, casual, deep)";
 
+                const all = "all";
+
                 const questions = [];
-                const categories = ["all"];
+                const categories = [all];
                 for (let entry of entries) {
                     questions.push(entry[questionKey]);
-
 
                     const category = entry[categoryKey];
                     if (category.trim().length > 0 && !categories.includes(category)) {
                         categories.push(category);
-                    }
-                    // TODO:
-                    // - if categories.length > 1, then show a dropdown for categories
+                    }        
                 }
 
-                $("#icebreaker-button").click(function() {
-                    // TODO: check the value of the currently selected dropdown option,
-                    // - if it’s anything other than "all", use it to filter the possible questions
+                if (categories.length > 1) {
+                    let categoryOptions;
+                    categories.forEach((c) => categoryOptions += `<option>${c}</option>`);
+                    $("#category-dropdown").html(categoryOptions);
+                    $("#category-dropdown-container").show();
+                }
 
-                    var question = questions[getRandomInt(questions.length)];
-                    $("#icebreaker-result").text(question);
-                    $("#icebreaker-copy").show();
+                $("#generate-button").click(function() {
+                    // TODO: this whole implementation can be streamlined by inverting the entries map
+                    // as a map<String, String[]>, category to list of questions.
+                    // - Computing the categories becomes: Object.keys(map)
+                    // - Computing the questions for a category becomes: map[category]
+                    // - Getting all questions becomes: Object.values(map)
+                    let question;
+                    const currentCategory = $("#category-dropdown").val().trim();
+                    if (currentCategory.length > 0 && currentCategory !== all) {
+                        let filteredQuestions = [];
+                        Object.keys(entries).forEach(key => {
+                            if (entries[key].trim() === currentCategory) {
+                                filteredQuestions += entries[key];
+                            }
+                        });
+
+                        question = filteredQuestions[getRandomInt(filteredQuestions.length)];
+                    } else {
+                        question = questions[getRandomInt(questions.length)];
+                    }
+                    $("#question-result").text(question);
+                    $("#copy-button").show();
                 });
 
-                $("#icebreaker-copy").click(function() {
-                    copyToClipboard($("#icebreaker-result").text());
+                $("#copy-button").click(function() {
+                    copyToClipboard($("#question-result").text());
                 })
             }, 'text');
         });
