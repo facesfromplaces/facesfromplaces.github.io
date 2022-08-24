@@ -87,11 +87,11 @@
                     // - Computing the questions for a category becomes: map[category]
                     // - Getting all questions becomes: Object.values(map)
                     let question;
-                    const currentCategory = $("#category-dropdown").val().trim();
-                    if (currentCategory.length > 0 && currentCategory !== all) {
+                    let currentCategory = $("#category-dropdown").val();
+                    if (currentCategory && currentCategory.length.trim() > 0 && currentCategory.trim() !== all) {
                         let filteredQuestions = [];
                         Object.keys(entries).forEach(key => {
-                            if (entries[key].trim() === currentCategory) {
+                            if (entries[key].trim() === currentCategory.trim()) {
                                 filteredQuestions += entries[key];
                             }
                         });
